@@ -1,13 +1,19 @@
 {
   "name": "booking-system",
   "version": "1.0.0",
-  "description": "",
+  "description": "REST API لنظام حجز مواعيد باستخدام Express و MongoDB",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "express",
+    "mongodb",
+    "api",
+    "booking"
+  ],
+  "author": "ذياد",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
