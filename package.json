@@ -1,7 +1,7 @@
 {
   "name": "mawidy-booking-platform",
   "version": "2.0.0",
-  "description": "منصة حجز مواعيد متكاملة باستخدام Node.js و Express و MongoDB",
+  "description": "منصة حجز مواعيد عربية باستخدام Express و MongoDB",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
@@ -14,7 +14,6 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.1.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.8.0"
