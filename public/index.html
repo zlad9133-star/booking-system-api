@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102a43">
+<meta name="description" content="منصة Mawidy لإدارة المواعيد والحجوزات">
+<title>موعدي | احجز وقتك بسهولة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="/"><span class="brand-mark">م</span><span>موعدي<small>وقتك يستحق التنظيم</small></span></a><div class="top-actions"><span id="connection" class="connection">جاري الاتصال...</span><button id="logout" class="btn btn-ghost hidden">تسجيل الخروج</button></div></header>
+<main class="container">
+<section id="welcome" class="hero"><div><span class="eyebrow">منصة حجز سهلة وسريعة</span><h1>رتّب وقتك،<br><em>واحجز موعدك</em> بثقة.</h1><p>اختر الخدمة والموعد المناسب، وتابع حالة حجزك من مكان واحد.</p><div class="hero-points"><span>✓ حجز في دقائق</span><span>✓ متابعة فورية</span><span>✓ حساب خاص بك</span></div></div><div class="hero-art"><div class="calendar-card"><div class="cal-head"><span>موعدك القادم</span><b>✦</b></div><div class="cal-date"><strong>١٢</strong><span>نوفمبر<br>الخميس</span></div><div class="cal-line"></div><div class="cal-foot"><span>جلسة استشارة</span><b>10:30 ص</b></div></div><div class="float-dot">✓</div></div></section>
+<section id="auth" class="auth-grid">
+<div class="auth-intro"><span class="eyebrow">أهلاً بك في موعدي</span><h2>ابدأ بتنظيم<br>مواعيدك اليوم.</h2><p>سجّل الدخول لمتابعة حجوزاتك، أو أنشئ حساباً جديداً في لحظات.</p></div>
+<div class="panel auth-panel"><div class="tabs"><button class="tab active" data-auth="login">تسجيل الدخول</button><button class="tab" data-auth="register">حساب جديد</button></div>
+<form id="auth-form"><div id="name-field" class="field hidden"><label for="name">الاسم الكامل</label><input id="name" name="name" autocomplete="name" placeholder="اكتب اسمك"></div><div class="field"><label for="email">البريد الإلكتروني</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="name@example.com"></div><div class="field"><label for="password">كلمة المرور</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="8 أحرف على الأقل"></div><button class="btn btn-primary btn-wide" type="submit" id="auth-submit">دخول إلى حسابي <span>←</span></button><p id="auth-message" class="message" aria-live="polite"></p></form></div></section>
+<section id="app-view" class="hidden">
+<div class="dashboard-head"><div><span class="eyebrow">مساحتك الشخصية</span><h2 id="greeting">مرحباً بك</h2><p>كل مواعيدك وخدماتك في مكان واحد.</p></div><div class="user-chip"><span class="avatar">م</span><span id="user-email"></span></div></div>
+<nav class="nav-tabs" id="main-tabs"><button class="nav-tab active" data-view="services">الخدمات والحجز</button><button class="nav-tab" data-view="mine">حجوزاتي</button><button class="nav-tab hidden" id="admin-tab" data-view="admin">لوحة الإدارة</button></nav>
+<section id="services-view" class="view"><div class="section-title"><div><span class="eyebrow">اختر ما يناسبك</span><h3>الخدمات المتاحة</h3></div><span class="muted" id="service-count"></span></div><div id="services-list" class="service-grid"><div class="empty">جاري تحميل الخدمات...</div></div></section>
+<section id="mine-view" class="view hidden"><div class="section-title"><div><span class="eyebrow">سجل مواعيدك</span><h3>حجوزاتي</h3></div><button class="btn btn-light" id="refresh-mine">تحديث القائمة ↻</button></div><div id="mine-list" class="list-panel"></div></section>
+<section id="admin-view" class="view hidden"><div class="section-title"><div><span class="eyebrow">إدارة المنصة</span><h3>لوحة التحكم</h3></div><button class="btn btn-light" id="refresh-admin">تحديث البيانات ↻</button></div><div class="stats" id="admin-stats"></div><div class="admin-layout"><div class="panel"><h4>إضافة خدمة جديدة</h4><form id="service-form"><div class="field"><label for="service-name">اسم الخدمة</label><input id="service-name" required maxlength="100"></div><div class="field"><label for="service-description">وصف مختصر</label><textarea id="service-description" rows="2" maxlength="500"></textarea></div><div class="form-row"><div class="field"><label for="service-duration">المدة بالدقائق</label><input id="service-duration" type="number" min="10" max="480" value="30" required></div><div class="field"><label for="service-price">السعر</label><input id="service-price" type="number" min="0" value="150" required></div></div><button class="btn btn-primary btn-wide">إضافة الخدمة</button><p id="service-message" class="message"></p></form></div><div class="panel admin-bookings"><h4>طلبات الحجز</h4><div id="admin-booking-list"></div></div></div></section>
+</section>
+</main>
+<footer><span>موعدي © <span id="year"></span></span><span>تجربة حجز عربية منظمة</span></footer>
+<div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><button id="modal-close" class="modal-close" aria-label="إغلاق">×</button><span class="eyebrow">خطوة أخيرة</span><h3 id="modal-title">احجز موعدك</h3><p id="modal-service" class="muted"></p><form id="booking-form"><input type="hidden" id="booking-service"><div class="field"><label for="customer-name">اسمك</label><input id="customer-name" required maxlength="80"></div><div class="field"><label for="customer-phone">رقم الهاتف</label><input id="customer-phone" required maxlength="25" inputmode="tel"></div><div class="form-row"><div class="field"><label for="booking-date">التاريخ</label><input id="booking-date" type="date" required></div><div class="field"><label for="booking-time">الوقت</label><input id="booking-time" type="time" required></div></div><div class="field"><label for="booking-notes">ملاحظات (اختياري)</label><textarea id="booking-notes" rows="2" maxlength="500"></textarea></div><button class="btn btn-primary btn-wide">تأكيد طلب الحجز</button><p id="booking-message" class="message"></p></form></div></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="/app.js"></script>
+</body></html>
