@@ -1,32 +1,43 @@
-# Booking System API
+# Mawidy — منصة حجز المواعيد
 
-واجهة برمجية (REST API) بسيطة لنظام حجز مواعيد، مبنية باستخدام **Node.js** و**Express** و**MongoDB (Mongoose)**.
+واجهة API لمنصة حجز عربية تدعم العملاء والمدير والخدمات والحجوزات.
 
-## المميزات
-- إنشاء حجز جديد (الاسم، الهاتف، التاريخ، الوقت)
-- عرض جميع الحجوزات
-- دعم CORS للربط مع أي واجهة أمامية
+## الوظائف
+- إنشاء حساب وتسجيل الدخول باستخدام JWT.
+- تخزين كلمات المرور باستخدام bcrypt.
+- عرض الخدمات وإضافة/تعديل الخدمات بصلاحية المدير.
+- إنشاء حجز وعرض حجوزات العميل وإلغاؤها.
+- لوحة إدارة API لعرض الحجوزات وتغيير حالتها.
+- منع تكرار حجز الخدمة في نفس التاريخ والوقت للحجوزات النشطة.
+- حماية أساسية عبر Helmet و CORS و Rate Limiting والتحقق من البيانات.
 
-## التقنيات
-Node.js · Express 5 · Mongoose · dotenv · CORS
+## التشغيل
+1. استخدم Node.js 20 أو أحدث.
+2. نفّذ `npm install`.
+3. انسخ `.env.example` إلى `.env` وأدخل رابط MongoDB وقيمة JWT سرية طويلة.
+4. اضبط بيانات المدير في متغيرات البيئة.
+5. نفّذ `npm run seed` لإنشاء المدير والخدمات التجريبية.
+6. نفّذ `npm run dev`.
 
-## التشغيل محلياً
-```bash
-npm install
-cp .env.example .env   # ثم ضع رابط قاعدة البيانات الخاص بك
-npm start
-```
-السيرفر يعمل على `http://localhost:3000`
-
-## نقاط الوصول (Endpoints)
-| الطريقة | المسار | الوصف |
+## API
+| Method | Endpoint | Access |
 |---|---|---|
-| POST | `/api/book` | إنشاء حجز جديد — body: `{ name, phone, date, time }` |
-| GET | `/api/bookings` | عرض كل الحجوزات |
+| GET | /api/health | عام |
+| POST | /api/auth/register | عام |
+| POST | /api/auth/login | عام |
+| GET | /api/auth/me | مسجل |
+| GET | /api/services | عام |
+| POST | /api/services | مدير |
+| PATCH | /api/services/:id | مدير |
+| POST | /api/bookings | عميل |
+| GET | /api/bookings/mine | عميل |
+| PATCH | /api/bookings/:id/cancel | صاحب الحجز |
+| GET | /api/admin/bookings | مدير |
+| PATCH | /api/admin/bookings/:id/status | مدير |
 
-## مثال
-```bash
-curl -X POST http://localhost:3000/api/book \
-  -H "Content-Type: application/json" \
-  -d '{"name":"أحمد","phone":"0100000000","date":"2026-11-01","time":"18:00"}'
-```
+أرسل التوكن في الهيدر: `Authorization: Bearer TOKEN`.
+
+## النشر
+استضف تطبيق Node.js على Render أو Railway، واربط MongoDB Atlas، ثم اضبط MONGO_URI وJWT_SECRET وCLIENT_URL وبيانات المدير. شغّل `npm run seed` مرة واحدة. لا ترفع ملف .env إلى Git.
+
+هذه المرحلة تنفذ الخادم وواجهات API وقاعدة البيانات. واجهة الموقع المرئية ولوحة التحكم ستُضاف في المرحلة التالية، ويلزم اختبار النشر قبل مشاركة الرابط العام.
