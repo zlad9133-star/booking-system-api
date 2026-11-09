@@ -1,25 +1,22 @@
 {
-  "name": "booking-system",
-  "version": "1.0.0",
-  "description": "REST API لنظام حجز مواعيد باستخدام Express و MongoDB",
+  "name": "mawidy-booking-platform",
+  "version": "2.0.0",
+  "description": "منصة حجز مواعيد متكاملة باستخدام Node.js و Express و MongoDB",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "node --watch index.js",
+    "seed": "node seed.js"
   },
-  "keywords": [
-    "express",
-    "mongodb",
-    "api",
-    "booking"
-  ],
-  "author": "ذياد",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "express-rate-limit": "^8.1.0",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.8.0"
   }
 }
