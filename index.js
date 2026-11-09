@@ -5,7 +5,8 @@ const cors=require('cors');
 const helmet=require('helmet');
 const bcrypt=require('bcryptjs');
 const jwt=require('jsonwebtoken');
-const rateLimit=require('express-rate-limit');
+const rateBuckets=new Map();
+const rateLimit=(req,res,next)=>{const now=Date.now(),key=req.ip;let bucket=rateBuckets.get(key);if(!bucket||now-bucket.started>15*60*1000){bucket={started:now,count:0};rateBuckets.set(key,bucket);}bucket.count++;if(bucket.count>120)return res.status(429).json({message:'طلبات كثيرة، حاول مرة أخرى لاحقاً'});next();};
 
 const app=express();
 app.disable('x-powered-by');
@@ -37,7 +38,8 @@ app.get('/api/bookings/mine',auth,wrap(async(req,res)=>res.json({bookings:await 
 app.patch('/api/bookings/:id/cancel',auth,wrap(async(req,res)=>{const b=await Booking.findOne({_id:req.params.id,user:req.user._id});if(!b)return res.status(404).json({message:'الحجز غير موجود'});if(b.status==='completed')return res.status(400).json({message:'لا يمكن إلغاء حجز مكتمل'});b.status='cancelled';await b.save();res.json({message:'تم إلغاء الحجز',booking:b});}));
 app.get('/api/admin/bookings',auth,admin,wrap(async(req,res)=>{const q={};if(req.query.status)q.status=req.query.status;res.json({bookings:await Booking.find(q).populate('user','name email').populate('service','name duration price').sort({date:1,time:1})});}));
 app.patch('/api/admin/bookings/:id/status',auth,admin,wrap(async(req,res)=>{if(!['pending','confirmed','cancelled','completed'].includes(req.body.status))return res.status(400).json({message:'حالة غير صحيحة'});const b=await Booking.findByIdAndUpdate(req.params.id,{status:req.body.status},{new:true,runValidators:true});if(!b)return res.status(404).json({message:'الحجز غير موجود'});res.json({message:'تم تحديث حالة الحجز',booking:b});}));
-app.use(require('express').static(require('path').join(__dirname,'public')));\napp.use((req,res)=>res.status(404).json({message:'المسار غير موجود'}));
+app.use(require('express').static(require('path').join(__dirname,'public')));
+app.use((req,res)=>res.status(404).json({message:'المسار غير موجود'}));
 app.use((err,req,res,next)=>{if(err.code===11000)return res.status(409).json({message:'هذا الموعد محجوز بالفعل'});if(err.name==='ValidationError'||err.name==='CastError')return res.status(400).json({message:'البيانات غير صحيحة'});if(['JsonWebTokenError','TokenExpiredError'].includes(err.name))return res.status(401).json({message:'جلسة الدخول غير صالحة'});console.error(err);res.status(500).json({message:'حدث خطأ في الخادم'});});
 async function start(){if(!process.env.MONGO_URI||!process.env.JWT_SECRET)throw new Error('MONGO_URI و JWT_SECRET مطلوبان');await mongoose.connect(process.env.MONGO_URI);await app.listen(process.env.PORT||3000);console.log('Mawidy API is running');}
 if(require.main===module)start().catch(e=>{console.error(e.message);process.exit(1);});
